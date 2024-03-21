@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from "remote/Header";
+import Footer from "remote/Footer";
+import helperFunction from "remote/helperFunction";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCount, incrementCount } from "./store";
 
 function App() {
+  const dispatch = useDispatch();
+  const { count } = useSelector(({ counter }) => {
+    return { count: counter.count };
+  });
+
+  const onClick = () => dispatch(incrementCount());
+  // function to clear the count in store.
+  const onClear = () => dispatch(clearCount());
+
+  console.log("rohit", helperFunction(5));
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header count={count} onClear={onClear} />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          height: "300px",
+          width: "80%",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div>HOST count {count}</div>
+        <button onClick={onClick}>Increment</button>
+      </div>
+      <Footer />
     </div>
   );
 }
